@@ -77,8 +77,88 @@
     * để xóa thư viện trong package.json dùng npm uninstall fileOfPackage
 ### Chạy lệnh Js trong script, nhận xét sự khác biệt giữa chạy code trong script và ngoài script
     * lệnh Js trong script e chỉ thấy nếu setup và chạy thì nó ngắn hơn thôi.
+## Dev tools
+### Tìm hiểu node debugger là gì ?
+    * node debugger là câu lệnh dùng để kiểm tra quá trình chạy của node, để debugger chúng ta đặt lệnh "debugger;" vào nơi muốn chương trình dừng lại sau đó thực hiện lệnh: node --spect-brk filename.js
+    * sẽ có cửa sổ dev tool của brower hiện ra và chúng ta sẽ thực hiện chạy code theo từng bước để biết chương trình hoạt động ra sao.
+### Debug một chương trình tính tích một mảng số dương, sử dụng các câu lệnh continue( c ), next( n ), repl( read eval print loop )
+    * e chưa hiểu ý của câu hỏi này?
+    * ở đây e có tạo 1 chương trình thực hiện như yêu cầu và đặt debugger; vào trong đó.
+```
+const http =  require("http");
+const fs = require('fs');
+const host = "127.0.0.1";
+const port = 3000;
 
-    
-    
+const server = http.createServer((req,res)=>{
+    function multipleArr(arr){
+        let mul=1
+        let i;
+        function multiple(a,b){
+            return a*b;
+        }
+        for(i=0; i<arr.length; i++){
+            debugger;
+            mul=multiple(mul, arr[i]);
+        }
+        
+        return mul;
+    };
+    console.log(multipleArr([1,2,3,4,5,6]));
+    res.writeHead(200, {'Content-Type':'text/html'});
+    res.write("multipleArr([1,2,3,4,5,6])");
+    res.end();
+}).listen(port, host,(err)=>{
+    if(err){
+        console.log(err);
+    }
+    console.log(`server ${host} đang được khởi chạy ở cổng ${port}`);
+})
 
+
+```
+### Phân biệt babel-cli, babel-presets-es2015, babel-presets-stage-2 ?
+    * theo như e hiểu thì babel-cli là module được dùng để compile code JS, tức là nó sẽ nhận đầu vào là các file .js và dịch biên dịch nó sang cú pháp tùy vào việc ta thiết lập.
+    * babel-presents-es2015 là bản es5, tức là để báo cho babel-cli biết là sẽ dịch cái file .js đó sang ES5.
+    * babel-presets-stage-2 là bản es thử nghiệm các tính năng, và tất nhiên nó sẽ chưa được đầy đủ.
+### Sử dụng npm để install babel và các presets của babel
+    * để cài babel-cli và babel-presets-2015 chúng ta thực hiện:
+        npm install --save-dev babel-cli babel-preset-env
+### Webpack là gì ?. Ứng dụng của Webpack trong dự án NodeJS
+### Sử dụng NPM để cài đặt webpack ?. Cấu hình webpack trong file webpack.config.js.
+### Linter là gì ?, Cài đặt ES Lint bằng NPM
+    * linter là nói vể các module có khả năng compare code js của mình với các tiêu chuẩn codejs của các nhà phát triển khác mà họ đã viết theo 1 quy chuẩn nhất định, 
+### Sử dụng ESLint test coding convention yourfile.js
+    * Để sử dụng ESLint chúng ta cần cài module ESLint bằng câu lệnh: yarn add eslint --save-dev, sau đó chạy lệnh yarn eslint filename.js
+## Node core
+### Để trở thành một webserver thì hệ thống cần đảm bảo những tiêu chí gì ?
+    * để trành thành 1 webserver thì hệ thống cấn đảm bảo những tiêu chí sau:
+        + 
+### Module Pattern là gì ?
+    * là chỉ export những thuộc tính và phương thức chung mà chúng ta muốn từ 1 object trả về, việc này sẽ giúp bảo vệ code của module
+### Các phương thức require, exports, module.exports dùng để làm gì ?
+    * require(): được dùng để lấy những giá trị từ file mà chúng ta đã export.
+    * exports và module.exports đều là object, cùng trỏ đến cùng 1 vùng nhớ, nhưng sau khi gán cho exports 1 phương thức hoặc thuộc tính thì nó lại trỏ đến 1 vùng nhớ hoàn toàn khác không liên quan đến module.exports nữa, vì vậy, tốt nhất khi muốn export ta nên dùng module.exports.
+### So sánh require ES5 => import Es6, sử dụng Babel để convert từ ES6 về  ES5
+    * require thực hiện việc loading synchronous, import thực hiện việc loading asynchronous
+    * ruquire thực hiện việc Throws error at runtime, import thực hiển việc Throws error while parsing
+### So sánh require/import relative file, library
+    * library là thư viện core của NodeJs, vì vậy khi import hay require chúng ta chỉ cần khai báo tên của library đó.
+    * còn khi muốn import/require file thì phải chỉ rõ đường dẫn tới file đó.
+### Node APIs là gì ?
+    * Node APIs là những thư viện đã được thiết kế sẵn, thông qua đó người lập trình có thể tái sử dụng để dùng các thư viện đó trong chương trình của họ 1 cách nhanh chóng và thuận tiện.
+### Fs module trong NodeJS dùng để làm gì ?
+    * fs module trong NodeJS dùng thể thao tác với file (tất tần tật các thao tác về file bao gồm: đọc, ghi, mở, đóng, copy........);
+### Viết  chương trình tạo, viết và đọc file ?
+    * chương trình:
+```
+
+```
+### Sự khác biệt giữa Fs asynchronous và Fs synchronous là gì ?
+### Http module trong NodeJS dùng để làm gì ?
+### Tạo một server đơn giản lẳng nghe ở cổng 8000, request trả lại "Hello world" sử dụng Http APIs
+### Event emitter trong nodejs là gì ?. Kể tên và nêu chức năng của các phương thức trong lớp Event emitter
+### Chức năng của Event Loop là gì ?.  Event loop trong nodeJs có giống Event loop trong engine V8 hay không ?
+### Trình bày các khái niệm: Event Driven, Non - Blocking trong nodeJS 
+### Phân biệt giữa asynchronous và Non - Blocking trong NodeJS ?
 
