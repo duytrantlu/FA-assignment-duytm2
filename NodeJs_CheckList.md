@@ -267,6 +267,7 @@ fs.stat(__dirname+'/newFile.txt',(err,stat)=>{
     * Template engine cho phép bạn sử dụng static template files trong ứng dụng của mình, trong thời gian chạy, tempalte engine sẽ thay thế những biến trong template file bằng những giá trị thực tế, và biến đổi template đó thành HTML file sau đó gửi tới client.
     * cách để tạo template trong express (thực hiện với pug template engine:
         - 1. cài đặt pug: yarn add pug
+        
         - 2. thiết lập cài đặt tại midleware và bố cục thư mục của project:
             + bố cục thư mục: tạo thư mục views để chứa các file html (lúc này do dùng pug nên phải đặt đuôi là .pug);
             + setup midleware: const pug = require('pug')
@@ -300,6 +301,82 @@ fs.stat(__dirname+'/newFile.txt',(err,stat)=>{
         },(req,res,next)=>{
             res.send('kết thúc ở đây');
         })
+## Database là gì ? 
+    * Database hay còn được gọi là hệ thống cơ sở dữ liệu có cấu trúc, được lưu trữ trên 1 thiết bị như băng, đĩa, ổ cứng...được duy trỳ dưới dạng tệp tin trong hệ điều hành máy tính hay 1 hệ quản trị cơ sở dữ liệu
+    * Một Database (Cơ sở dữ liệu) là một tập hợp dữ liệu đã được tổ chức sắp xếp. Mục đích chính của Database là để tổ chức một lượng lớn thông tin bằng việc lưu trữ, thu thập, và quản lý.
+### DBMS là gì ? Có những loại DBMS nào ?
+    * Hệ quản trị cơ sở dữ liệu (tiếng Anh: Database Management System – DBMS), là phần mềm hay hệ thống được thiết kế để quản trị một cơ sở dữ liệu. Cụ thể, các chương trình thuộc loại này hỗ trợ khả năng lưu trữ, sửa chữa, xóa và tìm kiếm thông tin trong một cơ sở dữ liệu (CSDL). Có rất nhiều loại hệ quản trị CSDL khác nhau: từ phần mềm nhỏ chạy trên máy tính cá nhân cho đến những hệ quản trị phức tạp chạy trên một hoặc nhiều siêu máy tính.
+### SQL là gì ? Nếu các phương thức trong SQL ?
+    * SQL là một ngôn ngữ tiêu chuẩn để truy cập cơ sở dữ liệu (database). SQL là viết tắt của cụm từ Structured Query Language (Ngôn ngữ truy vấn cấu trúc). Cho phép bạn truy cập và thao tác với database. Ngoài ra, SQL là một tiêu chuẩn ANSI (American National Standards Institute- Viện tiêu chuẩn Quốc gia Mỹ).
+    * Các phương thức trong SQL bao gồm:
+        - Create: tạo 1 table mới.
+        - Alter: sửa
+        - Select: chọn dữ liệu từ 1 csdl
+        - Insert: chèn record vào csdl
+        - Update: cập nhật record trong csdl
+        - Delete: xóa record trong csdl
+### Cấu hình SQL server trong express như thế nào ?
+    * trong express, hỗ trợ lập trình viên pagkage để làm việc với MySql, để dùng được trước tiên cần cài đặt chúng,
+        - npm install mysql --save
+        - import thư viện vừa cài vào project
+        - thực hiện cấu hình
+### Thực hiện Connect node với MySQL ?
+    * ví dụ thiết lập 1 connect trong express với MySQL
+```
+var mysql = require('mysql');
+var express = require('express');
+var app = express();
+app.listen(3000,function(){
+    console.log('Node server running @ http://localhost:3000')
+});
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "123456",
+  database: "mydb"
+});
+
+app.get('/public/home.html', function (req, res) {
+  var sql = "SELECT * FROM tasks";
+  con.query(sql, function(err, results) {
+    if (err) throw err;
+    res.send(results);
+  });
+});
+```
+### No SQL DB là gì ? 
+    * Thuật ngữ NoSQL được giới thiệu lần đầu vào năm 1998 sử dụng làm tên gọi chung cho các lightweight open source relational database (cơ sở dữ liệu quan hệ nguồn mở nhỏ) nhưng không sử dụng SQL cho truy vấn. Vào năm 2009, Eric Evans, nhân viên của Rackspace giới thiệu lại thuật ngữ NoSQL trong một hội thảo về cơ sở dữ liệu nguồn mở phân tán. Thuật ngữ NoSQL đánh dấu bước phát triển của thế hệ database mới: distributed (phân tán) + non-relational (không ràng buộc). Đây là 2 đặc tính quan trọng nhất.
+### Trình bày sự khác nhau giữa DBMS và RDBMS ?
+    * DBMS là : Hệ quản trị cơ sở dữ liệu (tiếng Anh: Database Management System – DBMS), là phần mềm hay hệ thống được thiết kế để quản trị một cơ sở dữ liệu. Cụ thể, các chương trình thuộc loại này hỗ trợ khả năng lưu trữ, sửa chữa, xóa và tìm kiếm thông tin trong một cơ sở dữ liệu (CSDL). Có rất nhiều loại hệ quản trị CSDL khác nhau: từ phần mềm nhỏ chạy trên máy tính cá nhân cho đến những hệ quản trị phức tạp chạy trên một hoặc nhiều siêu máy tính.
+    * RDBMS là viết tắt của Relational Database Management System có nghĩa là hệ quản trị cơ sỡ dữ liệu quan hệ. RDBMS là cơ sở cho SQL, và cho tất cả các hệ thống cơ sở dữ liệu hiện đại như MS SQL Server, IBM DB2, Oracle, MySQL và Microsoft Access.
+    * Hệ thống quản lý cơ sở dữ liệu quan hệ (RDBMS) là một hệ thống quản lý cơ sở dữ liệu (DBMS) dựa trên mô hình quan hệ được giới thiệu bởi EF Codd.
+    * tóm lại: DBMS là phần mềm hay hệ thống được thiết kế để quản trị 1 cơ sơ dữ liệu, còn RDBMS là 1 mô hình để quản lý cơ sở dữ liệu.
+### Mongo DB là gì ? Cách cấu hình Mongo BD trong express ?
+    * Mongo DB là 1 NoSQL Database, được thiết kế để quản trị 1 cơ sở dữ liệu mà trong đó các dữ liệu được lưu trữ như 1 document, 1 tập của các cặp key-value được lưu trong các collection (cũng giống như table trong RDBMS), các collection sẽ ko có ràng buộc với nhau.
+### Thực hiện Connect node voi MongoBD ?
+    * ví dụ conect node express với MongoDB:
+```
+
+var mongodb = require('mongodb');
+
+var MongoClient = mongodb.MongoClient;
+
+var url = 'mongodb://localhost:27017/my_database_name';
+
+MongoClient.connect(url, function (err, db) {
+  if (err) {
+    console.log('Unable to connect to the mongoDB server. Error:', err);
+  } else {
+    console.log('Connection established to', url);
+
+    // do some work here with the database.
+
+    //Close connection
+    db.close();
+  }
+});
+
+```
         
 
 
